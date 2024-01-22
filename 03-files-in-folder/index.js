@@ -7,14 +7,14 @@ fs.readdir(secretFolder, { withFileTypes: true }, (err, files) => {
   if (err) {
     console.error(err);
     return;
-  }
+  } //читаем содержимое папки, в случаи error, выводим ошибку в консоль
 
   files.forEach((file) => {
     if (file.name.startsWith('.')) {
       return;
     }
 
-    const pathFiles = path.join(secretFolder, file.name);
+    const pathFiles = path.join(secretFolder, file.name); // создаем путь к секретной папке
 
     fs.stat(pathFiles, (err, stats) => {
       if (err) {
@@ -23,12 +23,10 @@ fs.readdir(secretFolder, { withFileTypes: true }, (err, files) => {
       }
 
       if (stats.isFile()) {
-        const fileName = path.basename(file.name, path.extname(file.name));
+        const fileName = path.basename(file.name, path.extname(file.name)); //получаем инфо о файле
         console.log(
-          `${fileName} - ${path.extname(file.name)} - ${stats.size} bytes`,
+          `${fileName} - ${path.extname(file.name)} - ${stats.size} bytes`, // вывлдим в консоль список файлов и их данных
         );
-      } else if (stats.isDirectory() || file.name.startsWith('.')) {
-        console.log(`${file.name} - Directory`);
       }
     });
   });
