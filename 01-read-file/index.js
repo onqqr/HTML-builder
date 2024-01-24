@@ -2,11 +2,12 @@ const fs = require('fs');
 const path = require('path'); //подключаем модули
 
 const textFile = path.join(__dirname, 'text.txt'); // путь к файлу
+const rs = fs.createReadStream(textFile, 'utf-8'); // подключаю метод ReadStream
 
-fs.readFile(textFile, 'utf-8', (err, file) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log(file);
-}); //показываем в консоли содержимое file с котировкой utf-8
+rs.on('data', (data) => {
+  console.log(data);
+});
+
+rs.on('error', (err) => {
+  console.error(err);
+});
